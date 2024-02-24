@@ -21,40 +21,20 @@ export async function GET() {
     const chromium = require("@sparticuz/chromium");
 
 
-
-
-    // browser = await puppeteer.launch({
-    //   args: isDev ? [] : chromium.args,
-    //   defaultViewport: { width: 1920, height: 1080 },
-    //   executablePath: isDev
-    //     ? localExecutablePath
-    //     : await chromium.executablePath(remoteExecutablePath),
-    //   headless: chromium.headless,
-    // });
-
     const browser = await playwright.launch({
       args: chromium.args,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
-
-
-
-    const page = await browser.newPage();
-    await page.goto("https://baidu.com", {
-      waitUntil: "networkidle0",
-      timeout: 100000,
-    });
-    console.log("page title", await page.title());
-    const blob = await page.screenshot({ type: "png" });
-
-    const headers = new Headers();
-
-    headers.set("Content-Type", "image/png");
-    headers.set("Content-Length", blob.length.toString());
-
+  
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://baidu.com");
+    const pageTitle = await page.title();
+    await browser.close();
+  
     // or just use new Response ❗️
-    return new NextResponse(blob, { status: 200, statusText: "OK", headers });
+    return new NextResponse(pageTitle, { status: 200, statusText: "OK", headers });
   } catch (err) {
     console.log(err);
     return NextResponse.json(
