@@ -30,7 +30,7 @@ export async function GET() {
     const page = await context.newPage();
     await page.goto("https://baidu.com");
     const pageTitle = await page.title();
-    await browser.close();
+    await browser?.close();
   
     // or just use new Response ❗️
     return new NextResponse(pageTitle, { status: 200, statusText: "OK", headers });
@@ -41,6 +41,6 @@ export async function GET() {
       { status: 500 }
     );
   } finally {
-    await browser.close();
+    await browser?.close();
   }
 }
