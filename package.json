@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@playwright/test": "^1.41.2",
     "@sparticuz/chromium-min": "^119.0.2",
     "next": "14.0.4",
     "playwright-core": "^1.41.2",
