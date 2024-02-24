@@ -14,20 +14,34 @@ const isDev = process.env.NODE_ENV === "development";
 export async function GET() {
   let browser = null;
   try {
-    const chromium = require("@sparticuz/chromium-min");
-    const puppeteer = require("puppeteer-core");
+    // const chromium = require("@sparticuz/chromium-min");
+    const { chromium: playwright } = require("playwright-core");
 
-    browser = await puppeteer.launch({
-      args: isDev ? [] : chromium.args,
-      defaultViewport: { width: 1920, height: 1080 },
-      executablePath: isDev
-        ? localExecutablePath
-        : await chromium.executablePath(remoteExecutablePath),
+    // const puppeteer = require("puppeteer-core");
+    const chromium = require("@sparticuz/chromium");
+
+
+
+
+    // browser = await puppeteer.launch({
+    //   args: isDev ? [] : chromium.args,
+    //   defaultViewport: { width: 1920, height: 1080 },
+    //   executablePath: isDev
+    //     ? localExecutablePath
+    //     : await chromium.executablePath(remoteExecutablePath),
+    //   headless: chromium.headless,
+    // });
+
+    const browser = await playwright.launch({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
       headless: chromium.headless,
     });
 
+
+
     const page = await browser.newPage();
-    await page.goto("https://hehehai.cn", {
+    await page.goto("https://baidu.com", {
       waitUntil: "networkidle0",
       timeout: 100000,
     });
