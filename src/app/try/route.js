@@ -15,11 +15,10 @@ export async function GET() {
   let browser = null;
   try {
     // const chromium = require("@sparticuz/chromium-min");
-    const { chromium: playwright } = require("playwright-core");
+    const { chromium: playwright } = require("playwright");
 
     // const puppeteer = require("puppeteer-core");
     const chromium = require("@sparticuz/chromium");
-
 
     const browser = await playwright.launch({
       args: chromium.args,
